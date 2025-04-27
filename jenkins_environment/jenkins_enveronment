@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    environment {
+        app = 'frontend'
+        GIT_URL = 'https://github.com/lakshmikanth324/Jenkins_shared.git'
+        GIT_BRANCH = 'main'
+        GIT_CREDIANTIALS =  'github_id'
+    }
+
+    stages {
+        stage(''CHECKOUT) {
+            steps {
+                script {
+                    git branch: "${env.GIT_BRANCH}",
+                        credentialsId: "${env.GIT_CREDIANTIALS}",
+                            url: "${env.GIT_URL}"
+                }
+            }
+        }
+        stage('check') {
+            steps {
+                sh '''
+                    ls -lrt
+                    echo $GIT_BRANCH
+                    env
+                '''
+            }
+        }
+    }
+
+}
